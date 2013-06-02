@@ -1,0 +1,16 @@
+
+include: "keys/{{domain}}.key"
+
+zone:
+  name: "{{domain}}"
+  zonefile: "zones/{{domain}}.zone"
+{{#slaves}}
+  notify: {{slave_address}}@{{slave_port}} {{domain}}.key
+  {{^slave_subnet}}
+  provide-xfr: {{slave_address}} {{domain}}.key
+  {{/slave_subnet}}
+{{/slaves}}
+{{#slave_subnet}}
+  provide-xfr: {{slave_subnet}} {{domain.key}}
+{{/slave_subnet}}
+

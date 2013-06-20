@@ -1,10 +1,31 @@
 # OWNS
 # Serve local zones
-# {{configured}}
 server:
   ip-address: 127.0.0.1
+{{#addresses}}
   ip-address: {{address}}
+{{/addresses}}
   identity: {{hostname}}
   port: {{port}}
   verbosity: 1
 
+{{#zones}}
+key:
+  name: "{{zone}}.key"
+  algorithm: hmac-sha1
+  secret: "{{secret}}"
+
+zone:
+  name: "{{zone}}"
+  zonefile: "zones/{{zone}}.zone"
+{{#slaves}}
+  notify: {{slave_address}}@{{slave_port}} {{zone}}.key
+  {{^slave_subnet}}
+  provide-xfr: {{slave_address}} {{zone}}.key
+  {{/slave_subnet}}
+{{/slaves}}
+{{#slave_subnet}}
+  provide-xfr: {{slave_subnet}} {{zone}}.key
+{{/slave_subnet}}
+
+{{/zones}}

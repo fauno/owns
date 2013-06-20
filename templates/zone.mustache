@@ -1,13 +1,7 @@
 $ORIGIN {{domain}}.
 $TTL 1h
 
-{{domain}}. IN SOA {{ns}}. {{domain}}. (
-                    2013042816
-                    1h
-                    2h
-                    1d
-                    1h
-                    )
+{{domain}}. IN SOA {{ns}}. {{domain}}. ( {{serial}} 1h 2h 1d 1h )
 
 ; dominios públicos de los NS esclavos
 {{domain}}. IN NS {{ns1}}.

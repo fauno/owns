@@ -1,0 +1,18 @@
+---
+hostname: "tu hostname"
+port: 5300 # mejor no cambiar
+addresses:
+  - address: "ip en la vpn"
+zones:
+  -
+   zone: "HOSTNAME.librevpn.com.ar"
+   secret: "generar con echo -n 'tu secreto' | openssl sha1 -hmac 'OWNS' -binary | base64"
+   slaves:
+    -
+     slave_address: "192.168.9.3"
+     slave_port: 5300
+    -
+     slave_address: "192.168.9.170"
+     slave_port: 53
+
+---

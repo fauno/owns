@@ -43,3 +43,20 @@ artificiales más que los de los estándares de DNS y delegar en otros la
 tarea de difundir esta información.
 
 ![Gráfico](owns.png)
+
+
+## Howto
+
+Requisitos: nsd, librevpn
+
+Por ahora estamos definiendo la forma de automatizar el manejo del
+servidor autoritario y del delegado.
+
+Para aplicar los templates, hay que modificar el archivo `nsd.yml` con
+la información del nodo en [LibreVPN](http://librevpn.org.ar) y
+pasárselo a `mustache` (se instala con `gem install mustache`) así:
+
+    mustache nsd.yml templates/nsd.conf.mustache
+
+Próximamente van a haber scripts de automatización (incluído DNS
+dinámico).

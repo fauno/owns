@@ -1,0 +1,25 @@
+# OWNS
+# Act as a public delegate of local, distributed autorities
+
+server:
+  ip-address: 127.0.0.1
+{{#addresses}}
+  ip-address: {{address}}
+{{/addresses}}
+  identity: {{hostname}}
+  port: {{port}}
+  verbosity: 1
+
+{{#zones}}
+key:
+  name: "{{zone}}.key"
+  algorithm: hmac-sha1
+  secret: "{{secret}}"
+
+zone:
+  name: "{{zone}}"
+  zonefile: "zones/{{zone}}.zone"
+  allow-notify: {{authoritative_address}}@{{authoritative_port}} {{zone}}.key
+  request-xfr: AXFR {{authoritative_address}}@{{authoritative_port}} {{zone}}.key
+
+{{/zones}}

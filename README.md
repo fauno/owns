@@ -71,4 +71,7 @@ Por comodidad publico la [gema
 generada](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem) con [mi
 firma](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem).
 
-Otra forma es usar el Gemfile provisto usando `bundle install`.
+Otra forma es usar el Gemfile provisto usando `bundle install` y luego
+anteponer `bundle exec` a mustache:
+
+    bundle exec mustache nsd.yml templates/nsd.conf.mustache

@@ -8,9 +8,11 @@ $TTL 1h
 {{zone}}. IN NS {{ns2}}.
 
 ; IP dinámica
-{{zone}}. IN A     {{public_address}}
+  {{zone}}. IN A     {{public_address}}
+*.{{zone}}. IN A     {{public_address}}
 {{#public_address6}}
-{{zone}}. IN AAAA  {{public_address6}}
+  {{zone}}. IN AAAA  {{public_address6}}
+*.{{zone}}. IN AAAA  {{public_address6}}
 {{/public_address6}}
 
 {{#lvpn}}

@@ -1,21 +1,23 @@
-$ORIGIN {{domain}}.
+$ORIGIN {{zone}}.
 $TTL 1h
 
-{{domain}}. IN SOA {{ns}}. {{domain}}. ( {{serial}} 1h 2h 1d 1h )
+{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} 1h 2h 1d 1h )
 
-; dominios públicos de los NS esclavos
-{{domain}}. IN NS {{ns1}}.
-{{domain}}. IN NS {{ns2}}.
+; dominios públicos de los NS delegados
+{{zone}}. IN NS {{ns1}}.
+{{zone}}. IN NS {{ns2}}.
 
 ; IP dinámica
-{{domain}}. IN A     {{public_address}}
+  {{zone}}. IN A     {{public_address}}
+*.{{zone}}. IN A     {{public_address}}
 {{#public_address6}}
-{{domain}}. IN AAAA  {{public_address6}}
+  {{zone}}. IN AAAA  {{public_address6}}
+*.{{zone}}. IN AAAA  {{public_address6}}
 {{/public_address6}}
 
 {{#lvpn}}
 ; DNS-SD para LVPN
-_lvpn._udp.{{domain}}. IN PTR {{domain}}.
-_lvpn._udp.{{domain}}. IN SRV 0 0 {{tinc_port}} {{domain}}.
-_lvpn._udp.{{domain}}. IN TXT {{base64_host_file}}
+_lvpn._udp.{{zone}}. IN PTR {{zone}}.
+_lvpn._udp.{{zone}}. IN SRV 0 0 {{tinc_port}} {{zone}}.
+_lvpn._udp.{{zone}}. IN TXT {{#base64_host_file}}"{{.}}" {{/base64_host_file}}
 {{/lvpn}}

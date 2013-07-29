@@ -9,23 +9,41 @@ server:
   port: {{port}}
   verbosity: 1
 
+{{! Recorrer todas las zonas }}
 {{#zones}}
+{{! El secreto de esta zona }}
 key:
   name: "{{zone}}.key"
   algorithm: hmac-sha1
   secret: "{{secret}}"
 
+{{! Sección de la zona }}
 zone:
+{{! Nombre y archivo }}
   name: "{{zone}}"
   zonefile: "zones/{{zone}}.zone"
-{{#slaves}}
-  notify: {{slave_address}}@{{slave_port}} {{zone}}.key
-  {{^slave_subnet}}
-  provide-xfr: {{slave_address}} {{zone}}.key
-  {{/slave_subnet}}
-{{/slaves}}
-{{#slave_subnet}}
-  provide-xfr: {{slave_subnet}} {{zone}}.key
-{{/slave_subnet}}
+{{! Definición de delegados, somos la autoridad de esta zona }}
+{{#delegates}}
+
+{{! Notificar a las direcciones de los delegados }}
+  notify: {{delegate_address}}@{{delegate_port}} {{zone}}.key
+{{! Si no hay una subnet, habilitar las direcciones individuales de cada
+    delegado }}
+  {{^delegate_subnet}}
+  provide-xfr: {{delegate_address}} {{zone}}.key
+  {{/delegate_subnet}}
+{{/delegates}}
+{{! Si hay una subnet, habilitar a todos los delegados que tengan la
+    llave de esta zona }}
+{{#delegate_subnet}}
+  provide-xfr: {{subnet}} {{zone}}.key
+{{/delegate_subnet}}
+
+{{! Sección de autoridades
+    Si esto está completo quiere decir que somos delegados }}
+{{#authorities}}
+  allow-notify: {{authoritative_address}}@{{authoritative_port}} {{zone}}.key
+  request-xfr: AXFR {{authoritative_address}}@{{authoritative_port}} {{zone}}.key
+{{/authorities}}
 
 {{/zones}}

@@ -47,7 +47,7 @@ tarea de difundir esta información.
 
 ## Howto
 
-Requisitos: nsd, librevpn
+Requisitos: nsd, librevpn, mustache
 
 Por ahora estamos definiendo la forma de automatizar el manejo del
 servidor autoritario y del delegado.
@@ -60,3 +60,18 @@ pasárselo a `mustache` (se instala con `gem install mustache`) así:
 
 Próximamente van a haber scripts de automatización (incluído DNS
 dinámico).
+
+
+## Instalar mustache en ruby >= 1.9.3
+
+Dado que mustache está roto para ruby >= 1.9.3, hay que descargar la
+[versión arreglada](https://github.com/steakknife/mustache).
+
+Por comodidad publico la [gema
+generada](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem) con [mi
+firma](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem).
+
+Otra forma es usar el Gemfile provisto usando `bundle install` y luego
+anteponer `bundle exec` a mustache:
+
+    bundle exec mustache nsd.yml templates/nsd.conf.mustache

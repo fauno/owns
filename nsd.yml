@@ -1,18 +1,81 @@
 ---
-hostname: "tu hostname"
-port: 5300 # mejor no cambiar
-addresses:
-  - address: "ip en la vpn"
-zones:
-  -
-   zone: "HOSTNAME.librevpn.com.ar"
-   secret: "generar con echo -n 'tu secreto' | openssl sha1 -hmac 'OWNS' -binary | base64"
-   slaves:
-    -
-     slave_address: "192.168.9.3"
-     slave_port: 5300
-    -
-     slave_address: "192.168.9.170"
-     slave_port: 53
+# Nombre del nodo
+hostname: "noanoa"
+# La IPv4 pública
+# Esto puede ser modificado al estilo DNS dinámico
+public_address: "190.111.232.20"
+# La IPv6 pública
+public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 
+# Los delegados públicos actúan de NS hacia Internet
+ns1: "ns1.librevpn.com.ar"
+ns2: "ns2.librevpn.com.ar"
+
+# Puerto local, dejar en 5300 para no interferir con DNS locales
+# (recursivos), si va a ser un delegado público, cambiar a 53 o
+# redirigir por iptables.
+# 
+# Para las autoridades distribuidas
+port: 5300
+
+# Para los delegados públicos
+# port: 53
+
+# Las direcciones IP 
+# Puede ser IPv6 también
+addresses:
+# Dirección IP en la VPN
+  - address: "192.168.9.203"
+
+# Si están todos los delegados en una misma subred (como en LibreVPN),
+# se puede descomentar acá y habilitar a todos los delegados posibles
+# con los que se haya compartido el secreto.
+# delegate_subnet:
+#   - subnet: 192.168.9.0/24
+#   - subnet: 2001:1291:200:83ab::/64
+
+# Las zonas DNS
+zones:
+# Ejemplo de zona que se utiliza en las autoridades
+  -
+    zone: "noanoa.librevpn.com.ar"
+    secret: "`generate-hmac-secret`"
+# Lista de delegados
+# Esto se aplica en la autoridad
+    delegates:
+      -
+        delegate_address: "192.168.9.3"
+        delegate_port: 5300
+      -
+        delegate_address: "192.168.9.170"
+        delegate_port: 53
+
+# Lista de autoridades
+# Esto se aplica en el delegado
+    authorities:
+      -
+        authoritative_address: "192.168.9.203"
+        authoritative_port: 5300
+
+# DNS-SD de LibreVPN
+lvpn:
+  tinc_port: 655
+# base64 hosts/noanoa | sed -e 's/^/    - "/' -e 's/$/"/'
+  base64_host_file:
+    - "IyBub2Fub2EKIyBmYXVubyA8ZmF1bm9AZW5kZWZlbnNhZGVsc2wub3JnPgpTdWJuZXQgPSAxOTIu"
+    - "MTY4LjkuMjAzLzMyClN1Ym5ldCA9IDIwMDE6MTI5MToyMDA6ODNhYjozMDk2OmZhOTA6NGRmNjo3"
+    - "YTExLzEyOAoKLS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JSUNDZ0tDQWdFQThHZFpU"
+    - "bndiVGFwcGNkZmc5RWc1ZUdseVpQVlU0b2JiL01MdW5iS0NHN3ppNDV3MXpzMEQKanAvS2tRVnd6"
+    - "TU52WEdCY1JKdGZTSlJCYmVvaWxVU0tWUStpSk00MHFCQVdOc2hCU2FxeWM3cmUyTmw5Z1c0dQpH"
+    - "ZXJ6aStUaGdieHl0bTRQYjkvQ2FFTGRvQjRRRjZpT1RhRlRBZFQ4WEJ1a2xsMzRTWCtHQk5HVlBm"
+    - "NmJGcU14Cmd4RTNkU2Jqd1NyVnkyaE1VMkNkczVXWHJLNENSRkdVUmkyVVUzcXhYVGRTL1FFbDVX"
+    - "Zmx6YnpmMEhrQ2RsN2sKNVJMd2RWSCtqU2ZNdUowRTViKzBGZ3d3M0dHTWhQaHJZMWU1NTJVZUdi"
+    - "YWpabi9IKzZWclJzVXMyQm1sZm9KZgpmaWt2d0RCWjZPSVBGNDhvVngxQVEwV0NrQ1lhb1EyczNx"
+    - "NitEQVVCRnYrcXZFS2ZkK2ZrRTJXRTcwZmxpemVoCjV5T3kzVytDaHZBWUNTYmx1MGpabUNEeVNu"
+    - "Vk8xYzZha3ZBRWpqdk5GTFEwNS9PQ05ZU1VIZStBdmMxMDZldjcKbU1zSVFodzlIS09aakQzMzZi"
+    - "dWpGZHVkVllGa1lCMGZxTHZJSTF1cEdxU3BnTzVxTGRhQlBFVjIzdXZxenVDdQp4OWdrMmpWQVhh"
+    - "WVRrQzJuYXFubDdadFVIZ0MzMlEzaTV6OGdMRnNvWkUrY2gwN0xaM1F0c1dEZTNhMU9XZysxCmMz"
+    - "Tzhkak1TQ1BYOTBwM3VoTDh5L3FFNlZkTTZnS3cwVDRHN1l6M2w5UjhtTzY1eFJUV3hyd3dXTTlV"
+    - "YWdjNGsKVXR2UE5QbDdES2tlN1owSSt0OVRGbWk0d0hZZXhpS2oza3dZS1N0cmYrMkZzUlBSMEF6"
+    - "WVFnc0NBd0VBQVE9PQotLS0tLUVORCBSU0EgUFVCTElDIEtFWS0tLS0tCg=="
 ---

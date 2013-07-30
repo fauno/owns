@@ -52,11 +52,11 @@ Requisitos: nsd, librevpn, mustache
 Por ahora estamos definiendo la forma de automatizar el manejo del
 servidor autoritario y del delegado.
 
-Para aplicar los templates, hay que modificar el archivo `nsd.yml` con
-la información del nodo en [LibreVPN](http://librevpn.org.ar) y
+Para aplicar los templates, hay que modificar el archivo `owns.yml`
+con la información del nodo en [LibreVPN](http://librevpn.org.ar) y
 pasárselo a `mustache` (se instala con `gem install mustache`) así:
 
-    mustache nsd.yml templates/nsd.conf.mustache
+    mustache owns.yml templates/nsd.conf.mustache
 
 Próximamente van a haber scripts de automatización (incluído DNS
 dinámico).
@@ -74,4 +74,4 @@ firma](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem).
 Otra forma es usar el Gemfile provisto usando `bundle install` y luego
 anteponer `bundle exec` a mustache:
 
-    bundle exec mustache nsd.yml templates/nsd.conf.mustache
+    bundle exec mustache owns.yml templates/nsd.conf.mustache

@@ -44,6 +44,13 @@ zones:
   -
     zone: "noanoa.librevpn.com.ar"
     secret: "`generate-hmac-secret`"
+# Otros registros
+    extra:
+      -
+        extra_record: "MX 0 librevpn.com.ar"
+      -
+        subdomain: "www"
+        extra_record: "CNAME noanoa.librevpn.com.ar"
 # Configuración específica de la zona, va a suplantar el public_address
 # ya especificado
 #   public_address: "190.111.232.20"

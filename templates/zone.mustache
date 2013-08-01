@@ -17,6 +17,11 @@ $TTL 1h
 *.{{zone}}. IN AAAA  {{public_address6}}
 {{/public_address6}}
 
+; Registros extra
+{{#extra}}
+{{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{extra_record}}
+{{/extra}}
+
 {{#lvpn}}
 ; DNS-SD para LVPN
 _lvpn._udp.{{zone}}. IN PTR {{zone}}.

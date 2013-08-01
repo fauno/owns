@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+# Eventually we want to migrate this to lua or something smaller for
+# embedded services.
+# 
+# TODO update the IP address if it's set to be dynamic
+# TODO test for error, owns.yml sanity, etc.
+
+require 'yaml'
+require 'mustache'
+
+@cur_dir = File.dirname(__FILE__)
+
+class Zone < Mustache
+  self.template_path = "#{File.dirname(__FILE__)}/templates"
+end
+
+class Nsd < Mustache
+  self.template_path = "#{File.dirname(__FILE__)}/templates"
+end
+
+# Load data
+owns_data = YAML.load_file("#{@cur_dir}/owns.yml")
+
+puts "Generating nsd.conf..."
+File.open("#{@cur_dir}/nsd.conf", 'w') { |nsd_conf|
+  nsd_conf.rewind
+  nsd_conf.write(Nsd.render(owns_data))
+}
+
+# Create the zone directory
+puts "Creating zones directory..."
+FileUtils.mkdir_p('zones')
+
+# Traverse all zones
+owns_data['zones'].each do |zone_data|
+# Merge with the general configuration, zone-specific info takes
+# precedence
+  zone_data = owns_data.merge(zone_data)
+
+# Generate a serial from the current time
+  zone_data['serial'] = Time.new.to_i
+
+# Inform what we're doing
+  puts "Generating #{zone_data['zone']} with serial #{zone_data['serial']}..."
+
+# Write the zonefile!
+  File.open("zones/#{zone_data['zone']}.zone", 'w') { |zone_file|
+    zone_file.rewind
+    zone_file.write(Zone.render(zone_data))
+  }
+
+end

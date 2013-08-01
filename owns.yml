@@ -40,6 +40,9 @@ zones:
   -
     zone: "noanoa.librevpn.com.ar"
     secret: "`generate-hmac-secret`"
+# Configuración específica de la zona, va a suplantar el public_address
+# ya especificado
+#   public_address: "190.111.232.20"
 # Lista de delegados
 # Esto se aplica en la autoridad
     delegates:

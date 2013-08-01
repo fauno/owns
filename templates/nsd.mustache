@@ -1,12 +1,18 @@
 # OWNS
 # Serve local zones
 server:
-  ip-address: 127.0.0.1
 {{#addresses}}
   ip-address: {{address}}
 {{/addresses}}
+{{#username}}
+  username: {{username}}
+{{/username}}
+{{#hostname}}
   identity: {{hostname}}
+{{/hostname}}
+{{#port}}
   port: {{port}}
+{{/port}}
   verbosity: 1
 
 {{! Recorrer todas las zonas }}

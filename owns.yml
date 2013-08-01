@@ -1,6 +1,8 @@
 ---
 # Nombre del nodo
 hostname: "noanoa"
+# Usuario 
+username: "nsd"
 # La IPv4 pública
 # Esto puede ser modificado al estilo DNS dinámico
 public_address: "190.111.232.20"
@@ -22,8 +24,10 @@ port: 5300
 # port: 53
 
 # Las direcciones IP 
+# Dejar vacío para usar todas las interfaces
 # Puede ser IPv6 también
 addresses:
+  - address: "127.0.0.1"
 # Dirección IP en la VPN
   - address: "192.168.9.203"
 

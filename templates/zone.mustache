@@ -9,11 +9,11 @@ $TTL 1h
 
 ; IP dinámica
 {{#public_address}}
-  {{zone}}. IN A     {{public_address}}
+{{zone}}.   IN A     {{public_address}}
 *.{{zone}}. IN A     {{public_address}}
 {{/public_address}}
 {{#public_address6}}
-  {{zone}}. IN AAAA  {{public_address6}}
+{{zone}}.   IN AAAA  {{public_address6}}
 *.{{zone}}. IN AAAA  {{public_address6}}
 {{/public_address6}}
 

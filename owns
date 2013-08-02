@@ -19,12 +19,13 @@ class Nsd < Mustache
   self.template_path = "#{File.dirname(__FILE__)}/templates"
 end
 
-def run_process(line)
+def run_process(line, message)
+  puts message
   Open3::popen3(line) do |stdin, stdout, stderr|
-    puts "Output:"
+    puts 'Output:'
     puts stdout.read.strip
 
-    puts "Errors:"
+    puts 'Errors:'
     puts stderr.read.strip
   end
 end
@@ -32,14 +33,14 @@ end
 # Load data
 owns_data = YAML.load_file("#{@cur_dir}/owns.yml")
 
-puts "Generating nsd.conf..."
+puts 'Generating nsd.conf...'
 File.open("#{@cur_dir}/nsd.conf", 'w') { |nsd_conf|
   nsd_conf.rewind
   nsd_conf.write(Nsd.render(owns_data))
 }
 
 # Create the zone directory
-puts "Creating zones directory..."
+puts 'Creating zones directory...'
 FileUtils.mkdir_p('zones')
 
 # Traverse all zones
@@ -62,11 +63,6 @@ owns_data['zones'].each do |zone_data|
 
 end
 
-puts "Checking configuration..."
-run_process("nsd-checkconf #{@cur_dir}/nsd.conf")
-
-puts "Rebuilding zones..."
-run_process('nsdc rebuild')
-
-puts "Reloading nsd..."
-run_process('nsdc reload')
+run_process("nsd-checkconf #{@cur_dir}/nsd.conf", 'Checking configuration...')
+run_process('nsdc rebuild', 'Rebuilding zones...')
+run_process('nsdc reload', 'Reloading nsd...')

@@ -8,6 +8,7 @@
 require 'yaml'
 require 'mustache'
 require 'open3'
+require 'net/https'
 
 @cur_dir = File.dirname(__FILE__)
 
@@ -30,6 +31,10 @@ def run_process(line, message)
   end
 end
 
+def get_public_address
+  Net::HTTP.get(URI('https://icanhazip.com'))
+end
+
 # Load data
 owns_data = YAML.load_file("#{@cur_dir}/owns.yml")
 
@@ -42,6 +47,9 @@ File.open("#{@cur_dir}/nsd.conf", 'w') { |nsd_conf|
 # Create the zone directory
 puts 'Creating zones directory...'
 FileUtils.mkdir_p('zones')
+
+# Obtain public address if the field was left empty
+owns_data['public_address'] = get_public_address if owns_data['public_address'].nil?
 
 # Traverse all zones
 owns_data['zones'].each do |zone_data|

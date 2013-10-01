@@ -4,8 +4,8 @@ hostname: "noanoa"
 # Usuario 
 username: "nsd"
 # La IPv4 pública
-# Esto puede ser modificado al estilo DNS dinámico
-public_address: "190.111.232.20"
+# Dejar vacío si tenemos IP dinámico
+#public_address: "190.111.232.20"
 # La IPv6 pública
 public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 

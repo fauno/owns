@@ -47,31 +47,53 @@ tarea de difundir esta información.
 
 ## Howto
 
-Requisitos: nsd, librevpn, mustache
+Requisitos: nsd, librevpn, ruby, bundler
 
 Por ahora estamos definiendo la forma de automatizar el manejo del
 servidor autoritario y del delegado.
 
-Para aplicar los templates, hay que modificar el archivo `nsd.yml` con
-la información del nodo en [LibreVPN](http://librevpn.org.ar) y
-pasárselo a `mustache` (se instala con `gem install mustache`) así:
+Para aplicar los templates, hay que modificar el archivo `owns.yml`
+con la información del nodo en [LibreVPN](http://librevpn.org.ar) y
+generar la configuración.
 
-    mustache nsd.yml templates/nsd.conf.mustache
+### Instalación
 
-Próximamente van a haber scripts de automatización (incluído DNS
-dinámico).
+    # mv /etc/nsd{,~}
+    # git clone https://github.com/fauno/owns /etc/nsd
+    # pushd /etc/nsd
+    # bundle install
+
+### Generar nsd.conf y zonas
+
+Luego de editar `owns.yml`, correr `owns`, reiniciar `nsd` y recargar
+las zonas.
+
+    # bundle exec ruby owns
+
+### Informar cambios inmediatamente
+
+NSD hace esto por su cuenta, pero nunca está de más.
+
+Avisar a los delegados que hubo un cambio en la zona
+
+    # nsdc notify
+
+Actualizar el delegado, pidiendo información a las autoridades
+
+    # nsdc update
+
+### Tengo IP dinámica
+
+No declares la variable `public_address` en `owns.yml` y `owns` va a
+buscar la IP pública automáticamente y usarla para regenerar las zonas.
 
 
-## Instalar mustache en ruby >= 1.9.3
+## Cosas para hacer
 
-Dado que mustache está roto para ruby >= 1.9.3, hay que descargar la
-[versión arreglada](https://github.com/steakknife/mustache).
+* Anunciar automáticamente la huella digital de `sshd`
 
-Por comodidad publico la [gema
-generada](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem) con [mi
-firma](http://kiwwwi.com.ar/pastes/mustache-0.99.4.gem).
+* Anunciar automáticamente la huella digital de los certificados de
+  los dominios (DANE). Ejemplo /etc/ssl/certs/{{zona}}.crt => fpr =>
+  zones/{{zona}}.zone
 
-Otra forma es usar el Gemfile provisto usando `bundle install` y luego
-anteponer `bundle exec` a mustache:
-
-    bundle exec mustache nsd.yml templates/nsd.conf.mustache
+* DNSSEC con OpenDNSSEC

@@ -68,9 +68,7 @@ generar la configuración.
 Luego de editar `owns.yml`, correr `owns`, reiniciar `nsd` y recargar
 las zonas.
 
-    # ./owns
-    # nsdc restart
-    # nsdc rebuild
+    # bundle exec ruby owns
 
 ### Informar cambios inmediatamente
 
@@ -83,3 +81,19 @@ Avisar a los delegados que hubo un cambio en la zona
 Actualizar el delegado, pidiendo información a las autoridades
 
     # nsdc update
+
+### Tengo IP dinámica
+
+No declares la variable `public_address` en `owns.yml` y `owns` va a
+buscar la IP pública automáticamente y usarla para regenerar las zonas.
+
+
+## Cosas para hacer
+
+* Anunciar automáticamente la huella digital de `sshd`
+
+* Anunciar automáticamente la huella digital de los certificados de
+  los dominios (DANE). Ejemplo /etc/ssl/certs/{{zona}}.crt => fpr =>
+  zones/{{zona}}.zone
+
+* DNSSEC con OpenDNSSEC

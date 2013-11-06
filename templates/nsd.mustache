@@ -48,7 +48,7 @@ zone:
 {{! Sección de autoridades
     Si esto está completo quiere decir que somos delegados }}
 {{#authorities}}
-  allow-notify: {{authoritative_address}}@{{authoritative_port}} {{zone}}.key
+  allow-notify: {{authoritative_address}} {{zone}}.key
   request-xfr: AXFR {{authoritative_address}}@{{authoritative_port}} {{zone}}.key
 {{/authorities}}
 

@@ -65,7 +65,10 @@ zones:
         delegate_port: 53
 
 # Lista de autoridades
-# Esto se aplica en el delegado
+# Esto se aplica en el delegado.
+# Nota: los delegados no generan archivos de zonas sino que las
+# transfieren de sus autoridades, por lo que _authorities_ es mutuamente
+# excluyente de _delegates_.
     authorities:
       -
         authoritative_address: "192.168.9.203"

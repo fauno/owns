@@ -57,6 +57,10 @@ owns_data['zones'].each do |zone_data|
 # precedence
   zone_data = owns_data.merge(zone_data)
 
+# If this zone is delegated to us, don't create a zone file so the
+# transfer is forced
+  next if not zone_data['authorities'].nil?
+
 # Generate a serial from the current time
   zone_data['serial'] = Time.new.to_i
 

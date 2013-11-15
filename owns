@@ -55,6 +55,11 @@ File.open("#{@cur_dir}/nsd.conf", 'w') { |nsd_conf|
 puts 'Creating zones directory...'
 FileUtils.mkdir_p('zones')
 
+# Lingering zone files can trick nsd into believing we still serve
+# them...
+puts 'Removing old zones...'
+FileUtils.rm(Dir.glob('zones/*.zone'))
+
 # Obtain public address if the field was left empty
 owns_data['public_address'] = get_public_address if owns_data['public_address'].nil?
 
@@ -63,6 +68,10 @@ owns_data['zones'].each do |zone_data|
 # Merge with the general configuration, zone-specific info takes
 # precedence
   zone_data = owns_data.merge(zone_data)
+
+# If this zone is delegated to us, don't create a zone file so the
+# transfer is forced
+  next if not zone_data['authorities'].nil?
 
 # Generate a serial from the current time
   zone_data['serial'] = Time.new.to_i
@@ -80,4 +89,6 @@ end
 
 run_process("nsd-checkconf #{@cur_dir}/nsd.conf", 'Checking configuration...')
 run_process("#{@nsdc_bin} rebuild", 'Rebuilding zones...')
-run_process("#{@nsdc_bin} reload", 'Reloading nsd...')
+run_process("#{@nsdc_bin} stop", 'Stopping nsd...')
+run_process("#{@nsdc_bin} start", 'Starting nsd...')
+run_process("#{@nsdc_bin} notify", 'Notifying our presence...')

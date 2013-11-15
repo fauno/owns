@@ -10,7 +10,14 @@ require 'mustache'
 require 'open3'
 require 'net/https'
 
-@cur_dir = File.dirname(__FILE__)
+@cur_dir  = File.dirname(__FILE__)
+@nsdc_bin = `whereis -b nsd-control | awk '{print $2}'`.strip
+
+if @nsdc_bin.empty? then
+  # try old bin name
+  @nsdc_bin = `whereis -b nsdc | awk '{print $2}'`.strip
+  raise 'Cannot find nsd-control/nsdc' if @nsdc_bin.empty?
+end
 
 class Zone < Mustache
   self.template_path = "#{File.dirname(__FILE__)}/templates"
@@ -72,5 +79,5 @@ owns_data['zones'].each do |zone_data|
 end
 
 run_process("nsd-checkconf #{@cur_dir}/nsd.conf", 'Checking configuration...')
-run_process('nsdc rebuild', 'Rebuilding zones...')
-run_process('nsdc reload', 'Reloading nsd...')
+run_process("#{@nsdc_bin} rebuild", 'Rebuilding zones...')
+run_process("#{@nsdc_bin} reload", 'Reloading nsd...')

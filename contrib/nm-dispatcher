@@ -1,0 +1,13 @@
+#!/bin/sh
+# Rebuilds the zone when the network reconnects, useful for updating
+# dynamic IP addresses.
+
+# Install in /etc/NetworkManager/dispatcher.d/00_owns
+
+case $2 in
+  up)
+    pushd /etc/nsd
+    bundle exec ruby owns
+    ;;
+  down) ;;
+esac

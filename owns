@@ -48,6 +48,11 @@ File.open("#{@cur_dir}/nsd.conf", 'w') { |nsd_conf|
 puts 'Creating zones directory...'
 FileUtils.mkdir_p('zones')
 
+# Lingering zone files can trick nsd into believing we still serve
+# them...
+puts 'Removing old zones...'
+FileUtils.rm(Dir.glob('zones/*.zone'))
+
 # Obtain public address if the field was left empty
 owns_data['public_address'] = get_public_address if owns_data['public_address'].nil?
 

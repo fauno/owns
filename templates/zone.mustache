@@ -1,7 +1,7 @@
 $ORIGIN {{zone}}.
-$TTL 1h
+$TTL {{ttl}}
 
-{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} 1h 2h 1d 1h )
+{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} {{ttl}} {{ttl}} {{ttl}} {{ttl}})
 
 ; dominios públicos de los NS delegados
 {{zone}}. IN NS {{ns1}}.

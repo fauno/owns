@@ -13,6 +13,18 @@ public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 ns1: "ns1.librevpn.com.ar"
 ns2: "ns2.librevpn.com.ar"
 
+# Duración por defecto de los registros.
+# Un TTL muy bajo permite actualizaciones inmediatas, pero si la
+# autoridad se pierde, el delegado va a expirar el registro y dejar de
+# responder con información.  Esto está bien para nodos móviles pero si
+# estamos sirviendo una zona más estable puede dejar de estar disponible
+# muy rápido.
+# 
+# Tip: Si estamos migrando un dominio a otro server y el TTL es alto (1
+# día o más), se recomienda bajar este valor antes de hacer la migración
+# para minimizar el tiempo en que la red DNS nota el cambio.
+ttl: "1m"
+
 # Puerto local, dejar en 5300 para no interferir con DNS locales
 # (recursivos), si va a ser un delegado público, cambiar a 53 o
 # redirigir por iptables.

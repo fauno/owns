@@ -11,13 +11,6 @@ require 'open3'
 require 'net/https'
 
 @cur_dir  = File.dirname(__FILE__)
-@nsdc_bin = `whereis -b nsd-control | awk '{print $2}'`.strip
-
-if @nsdc_bin.empty? then
-  # try old bin name
-  @nsdc_bin = `whereis -b nsdc | awk '{print $2}'`.strip
-  raise 'Cannot find nsd-control/nsdc' if @nsdc_bin.empty?
-end
 
 class Zone < Mustache
   self.template_path = "#{File.dirname(__FILE__)}/templates"
@@ -38,9 +31,26 @@ def run_process(line, message)
   end
 end
 
+def get_bin(app)
+  begin
+    return `command -v #{app}`.strip
+  rescue Errno::ENOENT
+    app = `which #{app}`.strip
+    if app.empty? then
+      return false
+    else
+      return app
+    end
+  end
+end
+
 def get_public_address
   Net::HTTP.get(URI('https://icanhazip.com'))
 end
+
+# Locate nsdc binary
+@nsdc_bin = get_bin('nsd-control') or get_bin('nsdc')
+raise 'Cannot find nsd-control/nsdc' unless @nsdc_bin
 
 # Load data
 owns_data = YAML.load_file("#{@cur_dir}/owns.yml")

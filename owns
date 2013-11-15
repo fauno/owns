@@ -77,4 +77,6 @@ end
 
 run_process("nsd-checkconf #{@cur_dir}/nsd.conf", 'Checking configuration...')
 run_process('nsdc rebuild', 'Rebuilding zones...')
-run_process('nsdc reload', 'Reloading nsd...')
+run_process('nsdc stop', 'Stopping nsd...')
+run_process('nsdc start', 'Starting nsd...')
+run_process('nsdc notify', 'Notifying our presence...')

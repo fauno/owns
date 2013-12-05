@@ -87,7 +87,7 @@ Actualizar el delegado, pidiendo información a las autoridades
 No declares la variable `public_address` en `owns.yml` y `owns` va a
 buscar la IP pública automáticamente y usarla para regenerar las zonas.
 
-Si estás usando NetworkManager, instalá `bin/owns-nm-dispatcher` en
+Si estás usando NetworkManager, instalá `contrib/nm-dispatcher` en
 `/etc/NetworkManager/dispatcher.d/00_owns`.  Cada vez que te conectes,
 NetworkManager va a correr este script y actualizar el DNS dinámico.
 

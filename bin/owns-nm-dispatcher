@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# Dispatcher script for owns
+#
+# If you're using NetworkManager and Dynamic DNS you can copy this
+# script to /etc/NetworkManager/dispatcher.d/ to have owns update your
+# DNS zones when you connect to a network.
+
+case $2 in
+  'up')
+    pushd /etc/nsd
+    bundle exec ruby owns
+    ;;
+  'down') ;;
+esac
+
+exit $?

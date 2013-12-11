@@ -2,3 +2,5 @@ vendor/
 .bundle/
 zones/
 nsd.conf
+out/nsd.conf
+out/zones/*.conf

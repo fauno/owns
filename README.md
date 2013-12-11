@@ -42,7 +42,7 @@ En conclusión, podemos administrar nuestras propias zonas, sin límites
 artificiales más que los de los estándares de DNS y delegar en otros la
 tarea de difundir esta información.
 
-![Gráfico](owns.png)
+![Gráfico](assets/img/owns.png)
 
 
 ## Howto
@@ -65,10 +65,11 @@ generar la configuración.
 
 ### Generar nsd.conf y zonas
 
-Luego de editar `owns.yml`, correr `owns`, reiniciar `nsd` y recargar
+Luego de editar `config.yml`, correr `owns`, reiniciar `nsd` y recargar
 las zonas.
 
-    # bundle exec ruby owns
+    # bundle exec ruby owns.rb
+    # ln -s out/* ./
 
 ### Informar cambios inmediatamente
 
@@ -84,10 +85,10 @@ Actualizar el delegado, pidiendo información a las autoridades
 
 ### Tengo IP dinámica
 
-No declares la variable `public_address` en `owns.yml` y `owns` va a
+No declares la variable `public_address` en `config.yml` y `owns` va a
 buscar la IP pública automáticamente y usarla para regenerar las zonas.
 
-Si estás usando NetworkManager, instalá `contrib/nm-dispatcher` en
+Si estás usando NetworkManager, instalá `utils/nm-dispatcher` en
 `/etc/NetworkManager/dispatcher.d/00_owns`.  Cada vez que te conectes,
 NetworkManager va a correr este script y actualizar el DNS dinámico.
 
@@ -101,3 +102,5 @@ NetworkManager va a correr este script y actualizar el DNS dinámico.
   zones/{{zona}}.zone
 
 * DNSSEC con OpenDNSSEC
+
+* Añadir tests para poder analizar en profundidad el correcto funcionamiento de la aplicación.

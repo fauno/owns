@@ -17,6 +17,9 @@ $TTL {{ttl}}
 *.{{zone}}. IN AAAA  {{public_address6}}
 {{/public_address6}}
 
+; Deprecate www
+www.{{zone}}. IN CNAME {{zone}}.
+
 ; Registros extra
 {{#extra}}
 {{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{extra_record}}

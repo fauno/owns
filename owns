@@ -54,7 +54,7 @@ def run_process(line, message)
 end
 
 def get_public_address
-  Net::HTTP.get(URI('https://icanhazip.com'))
+  Net::HTTP.get(URI('https://ns.librevpn.com.ar'))
 end
 
 # Load data

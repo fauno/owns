@@ -20,6 +20,10 @@ $TTL {{ttl}}
 ; Deprecate www
 www.{{zone}}. IN CNAME {{zone}}.
 
+; XMPP
+_xmpp-client._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5222 {{zone}}.
+_xmpp-server._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5269 {{zone}}.
+
 ; Registros extra
 {{#extra}}
 {{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{extra_record}}

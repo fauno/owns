@@ -9,9 +9,14 @@ username: "nsd"
 # La IPv6 pública
 public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 
+# Obtener IP pública
+# El servicio sólo debe devolver la IP y nada más, porque Owns no hace
+# ningún tipo de parseo
+public_address_service: 'http://ns2.librevpn.org.ar'
+
 # Los delegados públicos actúan de NS hacia Internet
-ns1: "ns1.librevpn.com.ar"
-ns2: "ns2.librevpn.com.ar"
+ns1: "ns1.librevpn.org.ar"
+ns2: "ns2.librevpn.org.ar"
 
 # Duración por defecto de los registros.
 # Un TTL muy bajo permite actualizaciones inmediatas, pero si la

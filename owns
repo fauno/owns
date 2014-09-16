@@ -53,8 +53,8 @@ def run_process(line, message)
   end
 end
 
-def get_public_address
-  Net::HTTP.get(URI('https://ns.librevpn.com.ar'))
+def get_public_address(service)
+  Net::HTTP.get(URI(service || 'http://ns2.librevpn.org.ar'))
 end
 
 # Load data
@@ -76,7 +76,7 @@ puts 'Removing old zones...'
 FileUtils.rm(Dir.glob('zones/*.zone'))
 
 # Obtain public address if the field was left empty
-owns_data['public_address'] = get_public_address if owns_data['public_address'].nil?
+owns_data['public_address'] = get_public_address(owns_data['public_address_service']) if owns_data['public_address'].nil?
 
 # Traverse all zones
 owns_data['zones'].each do |zone_data|

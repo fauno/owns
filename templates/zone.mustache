@@ -4,8 +4,9 @@ $TTL {{ttl}}
 {{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} {{ttl}} {{ttl}} {{slave_ttl}} {{ttl}})
 
 ; dominios públicos de los NS delegados
-{{zone}}. IN NS {{ns1}}.
-{{zone}}. IN NS {{ns2}}.
+{{#ns}}
+{{zone}}. IN NS {{.}}.
+{{/ns}}
 
 ; IP dinámica
 {{#public_address}}

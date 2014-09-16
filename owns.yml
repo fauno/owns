@@ -15,8 +15,10 @@ public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 public_address_service: 'http://ns2.librevpn.org.ar'
 
 # Los delegados públicos actúan de NS hacia Internet
-ns1: "ns1.librevpn.org.ar"
-ns2: "ns2.librevpn.org.ar"
+ns:
+  - "ns1.librevpn.org.ar"
+  - "ns2.librevpn.org.ar"
+  - "ns3.librevpn.org.ar"
 
 # El serial tiene que cambiar cada vez que se modifica una zona.  No es
 # necesario que los delegados tengan este dato de antemano, porque lo
@@ -110,10 +112,10 @@ zones:
 # Nota: los delegados no generan archivos de zonas sino que las
 # transfieren de sus autoridades, por lo que _authorities_ es mutuamente
 # excluyente de _delegates_.
-    authorities:
-      -
-        authoritative_address: "192.168.9.203"
-        authoritative_port: 5300
+#    authorities:
+#      -
+#        authoritative_address: "192.168.9.203"
+#        authoritative_port: 5300
 
 # DNS-SD de LibreVPN
 lvpn:

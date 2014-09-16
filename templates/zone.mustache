@@ -20,6 +20,9 @@ $TTL {{ttl}}
 ; Deprecate www
 www.{{zone}}. IN CNAME {{zone}}.
 
+; SPF
+{{zone}}. {{ttl}} IN TXT "v=spf1 ip4:{{public_address}} ip6:{{public_address6}} -all"
+
 ; XMPP
 _xmpp-client._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5222 {{zone}}.
 _xmpp-server._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5269 {{zone}}.

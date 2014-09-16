@@ -1,7 +1,7 @@
 $ORIGIN {{zone}}.
 $TTL {{ttl}}
 
-{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} {{ttl}} {{ttl}} {{ttl}} {{ttl}})
+{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} {{ttl}} {{ttl}} {{slave_ttl}} {{ttl}})
 
 ; dominios públicos de los NS delegados
 {{zone}}. IN NS {{ns1}}.
@@ -29,7 +29,7 @@ _xmpp-server._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5269 {{zone}}.
 
 ; Registros extra
 {{#extra}}
-{{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{extra_record}}
+{{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{&extra_record}}
 {{/extra}}
 
 {{#lvpn}}

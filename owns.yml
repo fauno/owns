@@ -18,6 +18,17 @@ public_address_service: 'http://ns2.librevpn.org.ar'
 ns1: "ns1.librevpn.org.ar"
 ns2: "ns2.librevpn.org.ar"
 
+# El serial tiene que cambiar cada vez que se modifica una zona.  No es
+# necesario que los delegados tengan este dato de antemano, porque lo
+# usan para saber si tienen que actualizar, comparando con el que ya
+# tienen.
+#
+# Este campo es opcional ya que se autogenera en base al tiempo de
+# modificación, pero si se quiere mantener por alguna razón, es posible
+# especificarlo acá.
+#
+# serial: 1409355089
+
 # Duración por defecto de los registros.
 # Un TTL muy bajo permite actualizaciones inmediatas, pero si la
 # autoridad se pierde, el delegado va a expirar el registro y dejar de
@@ -29,6 +40,12 @@ ns2: "ns2.librevpn.org.ar"
 # día o más), se recomienda bajar este valor antes de hacer la migración
 # para minimizar el tiempo en que la red DNS nota el cambio.
 ttl: "1m"
+
+# Tiempo que va a tardar el delegado en descartar los registros sin
+# estar en contacto con la autoridad.  Si es muy bajo y la autoridad
+# desaparece, los registros se van a vencer y desaparecer de la red aun
+# cuando sean válidos.
+slave_ttl: "1d"
 
 # Puerto local, dejar en 5300 para no interferir con DNS locales
 # (recursivos), si va a ser un delegado público, cambiar a 53 o
@@ -54,20 +71,27 @@ addresses:
 # delegate_subnet:
 #   - subnet: 192.168.9.0/24
 #   - subnet: 2001:1291:200:83ab::/64
+#
+# Registros extra globales.  Si no se especifican registros extra
+# propios, todas las zonas heredan estos.
+# Todos los dominios usan este mx
+extra:
+  - extra_record: 'IN MX 0 librevpn.org.ar.'
 
 # Las zonas DNS
 zones:
 # Ejemplo de zona que se utiliza en las autoridades
   -
-    zone: "noanoa.librevpn.com.ar"
+    zone: "noanoa.librevpn.org.ar"
+# Reemplazar por la salida de este programa
     secret: "`generate-hmac-secret`"
 # Otros registros
     extra:
       -
-        extra_record: "MX 0 librevpn.com.ar"
+        extra_record: "MX 0 librevpn.org.ar"
       -
         subdomain: "www"
-        extra_record: "CNAME noanoa.librevpn.com.ar"
+        extra_record: "CNAME noanoa.librevpn.org.ar"
 # Configuración específica de la zona, va a suplantar el public_address
 # ya especificado
 #   public_address: "190.111.232.20"

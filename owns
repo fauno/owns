@@ -89,7 +89,7 @@ owns_data['zones'].each do |zone_data|
   next if not zone_data['authorities'].nil?
 
 # Generate a serial from the current time
-  zone_data['serial'] = Time.new.to_i
+  zone_data['serial'] = Time.new.to_i if zone_data['serial'].nil?
 
 # Inform what we're doing
   puts "Generating #{zone_data['zone']} with serial #{zone_data['serial']}..."

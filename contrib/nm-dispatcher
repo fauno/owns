@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
 # owns
 #
@@ -20,19 +20,15 @@
 # Public License along with this program.  If not, see
 # <http://www.gnu.org/licenses/>.
 
+# Rebuilds the zone when the network reconnects, useful for updating
+# dynamic IP addresses.
 
-# Es un poco ridículo que se use gettext para informar que falta gettext no?
-for i in openssl base64 gettext; do
-  if which $i &>/dev/null; then
-    printf "$(gettext "%s is missing on PATH")" $i
-    exit 1
-  fi
-done
+# Install in /etc/NetworkManager/dispatcher.d/00_owns
 
-if test -z "$1" ; then
-  printf "$(gettext "Generates an hmac secret\n\nUsage:\t%s \"shared_secret\" \"your_secret\"\n")" \
-         ${0##*/}
-  exit 0
-fi
-
-printf "$2" | openssl sha1 -hmac "$1" -binary | base64
+case $2 in
+  up)
+    pushd /etc/nsd
+    bundle exec ruby owns
+    ;;
+  down) ;;
+esac

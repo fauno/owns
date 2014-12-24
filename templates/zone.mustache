@@ -1,11 +1,12 @@
 $ORIGIN {{zone}}.
-$TTL 1h
+$TTL {{ttl}}
 
-{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} 1h 2h 1d 1h )
+{{zone}}. IN SOA {{ns1}}. {{zone}}. ( {{serial}} {{ttl}} {{ttl}} {{slave_ttl}} {{ttl}})
 
 ; dominios públicos de los NS delegados
-{{zone}}. IN NS {{ns1}}.
-{{zone}}. IN NS {{ns2}}.
+{{#ns}}
+{{zone}}. IN NS {{.}}.
+{{/ns}}
 
 ; IP dinámica
 {{#public_address}}
@@ -17,9 +18,19 @@ $TTL 1h
 *.{{zone}}. IN AAAA  {{public_address6}}
 {{/public_address6}}
 
+; Deprecate www
+www.{{zone}}. IN CNAME {{zone}}.
+
+; SPF
+{{zone}}. {{ttl}} IN TXT "v=spf1 ip4:{{public_address}} ip6:{{public_address6}} -all"
+
+; XMPP
+_xmpp-client._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5222 {{zone}}.
+_xmpp-server._tcp.{{zone}}. {{ttl}} IN SRV 0 5 5269 {{zone}}.
+
 ; Registros extra
 {{#extra}}
-{{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{extra_record}}
+{{#subdomain}}{{subdomain}}.{{/subdomain}}{{zone}}. {{&extra_record}}
 {{/extra}}
 
 {{#lvpn}}

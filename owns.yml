@@ -9,9 +9,45 @@ username: "nsd"
 # La IPv6 pública
 public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 
+# Obtener IP pública
+# El servicio sólo debe devolver la IP y nada más, porque Owns no hace
+# ningún tipo de parseo
+public_address_service: 'http://ns2.librevpn.org.ar'
+
 # Los delegados públicos actúan de NS hacia Internet
-ns1: "ns1.librevpn.com.ar"
-ns2: "ns2.librevpn.com.ar"
+ns:
+  - "ns1.librevpn.org.ar"
+  - "ns2.librevpn.org.ar"
+  - "ns3.librevpn.org.ar"
+
+# El serial tiene que cambiar cada vez que se modifica una zona.  No es
+# necesario que los delegados tengan este dato de antemano, porque lo
+# usan para saber si tienen que actualizar, comparando con el que ya
+# tienen.
+#
+# Este campo es opcional ya que se autogenera en base al tiempo de
+# modificación, pero si se quiere mantener por alguna razón, es posible
+# especificarlo acá.
+#
+# serial: 1409355089
+
+# Duración por defecto de los registros.
+# Un TTL muy bajo permite actualizaciones inmediatas, pero si la
+# autoridad se pierde, el delegado va a expirar el registro y dejar de
+# responder con información.  Esto está bien para nodos móviles pero si
+# estamos sirviendo una zona más estable puede dejar de estar disponible
+# muy rápido.
+# 
+# Tip: Si estamos migrando un dominio a otro server y el TTL es alto (1
+# día o más), se recomienda bajar este valor antes de hacer la migración
+# para minimizar el tiempo en que la red DNS nota el cambio.
+ttl: "1m"
+
+# Tiempo que va a tardar el delegado en descartar los registros sin
+# estar en contacto con la autoridad.  Si es muy bajo y la autoridad
+# desaparece, los registros se van a vencer y desaparecer de la red aun
+# cuando sean válidos.
+slave_ttl: "1d"
 
 # Puerto local, dejar en 5300 para no interferir con DNS locales
 # (recursivos), si va a ser un delegado público, cambiar a 53 o
@@ -37,20 +73,27 @@ addresses:
 # delegate_subnet:
 #   - subnet: 192.168.9.0/24
 #   - subnet: 2001:1291:200:83ab::/64
+#
+# Registros extra globales.  Si no se especifican registros extra
+# propios, todas las zonas heredan estos.
+# Todos los dominios usan este mx
+extra:
+  - extra_record: 'IN MX 0 librevpn.org.ar.'
 
 # Las zonas DNS
 zones:
 # Ejemplo de zona que se utiliza en las autoridades
   -
-    zone: "noanoa.librevpn.com.ar"
+    zone: "noanoa.librevpn.org.ar"
+# Reemplazar por la salida de este programa
     secret: "`generate-hmac-secret`"
 # Otros registros
     extra:
       -
-        extra_record: "MX 0 librevpn.com.ar"
+        extra_record: "MX 0 librevpn.org.ar"
       -
         subdomain: "www"
-        extra_record: "CNAME noanoa.librevpn.com.ar"
+        extra_record: "CNAME noanoa.librevpn.org.ar"
 # Configuración específica de la zona, va a suplantar el public_address
 # ya especificado
 #   public_address: "190.111.232.20"
@@ -65,11 +108,14 @@ zones:
         delegate_port: 53
 
 # Lista de autoridades
-# Esto se aplica en el delegado
-    authorities:
-      -
-        authoritative_address: "192.168.9.203"
-        authoritative_port: 5300
+# Esto se aplica en el delegado.
+# Nota: los delegados no generan archivos de zonas sino que las
+# transfieren de sus autoridades, por lo que _authorities_ es mutuamente
+# excluyente de _delegates_.
+#    authorities:
+#      -
+#        authoritative_address: "192.168.9.203"
+#        authoritative_port: 5300
 
 # DNS-SD de LibreVPN
 lvpn:

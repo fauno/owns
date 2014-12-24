@@ -23,7 +23,6 @@
 # Eventually we want to migrate this to lua or something smaller for
 # embedded services.
 # 
-# TODO update the IP address if it's set to be dynamic
 # TODO test for error, owns.yml sanity, etc.
 
 

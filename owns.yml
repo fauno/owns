@@ -15,6 +15,7 @@ public_address6: "2001:1291:200:83ab:3096:fa90:4df6:7a11"
 public_address_service: 'http://ns2.librevpn.org.ar'
 
 # Los delegados públicos actúan de NS hacia Internet
+soa: "ns1.librevpn.org.ar"
 ns:
   - "ns1.librevpn.org.ar"
   - "ns2.librevpn.org.ar"
@@ -64,7 +65,7 @@ port: 5300
 # Puede ser IPv6 también
 addresses:
   - address: "127.0.0.1"
-# Dirección IP en la VPN
+# Dirección IP en LibreVPN
   - address: "192.168.9.203"
 
 # Si están todos los delegados en una misma subred (como en LibreVPN),

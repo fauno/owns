@@ -67,6 +67,8 @@ addresses:
   - address: "127.0.0.1"
 # Dirección IP en LibreVPN
   - address: "192.168.9.203"
+addresses6:
+  - address6: "::1/128"
 
 # Si están todos los delegados en una misma subred (como en LibreVPN),
 # se puede descomentar acá y habilitar a todos los delegados posibles

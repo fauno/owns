@@ -102,7 +102,15 @@ owns_data['zones'].each do |zone_data|
 end
 
 run_process("nsd-checkconf #{@cur_dir}/nsd.conf", 'Checking configuration...')
-run_process('nsdc rebuild', 'Rebuilding zones...')
-run_process('nsdc stop', 'Stopping nsd...')
-run_process('nsdc start', 'Starting nsd...')
-run_process('nsdc notify', 'Notifying our presence...')
+
+if owns_data['nsd4']
+  # If we're using nsd4, we need the keys for nsd-control
+  run_process('nsd-control-setup',  'NSD control setup') unless File.exists?("#{@cur_dir}/nsd_control.key")
+  run_process('nsd-control reload', 'Reloading zones...')
+  run_process('nsd-control notify', 'Notifying delegates...')
+else # nsd3
+  run_process('nsdc rebuild', 'Rebuilding zones...')
+  run_process('nsdc stop',    'Stopping nsd...')
+  run_process('nsdc start',   'Starting nsd...')
+  run_process('nsdc notify',  'Notifying delegates...')
+end

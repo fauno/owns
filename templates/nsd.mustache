@@ -18,6 +18,11 @@ server:
 {{/port}}
   verbosity: 1
 
+{{#nsd4}}
+remote-control:
+  control-enable: yes
+{{/nsd4}}
+
 {{! Recorrer todas las zonas }}
 {{#zones}}
 {{! El secreto de esta zona }}

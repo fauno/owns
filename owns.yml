@@ -21,6 +21,9 @@ ns:
   - "ns2.librevpn.org.ar"
   - "ns3.librevpn.org.ar"
 
+# Si estás en nsd3, setealo en falso
+nsd4: true
+
 # El serial tiene que cambiar cada vez que se modifica una zona.  No es
 # necesario que los delegados tengan este dato de antemano, porque lo
 # usan para saber si tienen que actualizar, comparando con el que ya
